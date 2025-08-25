@@ -9,8 +9,8 @@ app = Flask(__name__)
 CORS(app)
 
 # Load from environment
-EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
-EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_USER = os.environ.get("EMAIL_ADDRESS")
+EMAIL_PASS = os.environ.get("EMAIL_PASSWORD")
 
 @app.route("/", methods=["GET"])
 def home():
