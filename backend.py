@@ -11,6 +11,7 @@ EMAIL_PASS = os.environ.get("EMAIL_PASS", "vjakoxonkqweqqqt")
 @app.route("/send-email", methods=["POST"])
 def send_email():
     data = request.get_json()
+    print("DEBUG Received:", data, flush=True)
     to = data.get("to")
     subject = data.get("subject")
     message = data.get("message")
