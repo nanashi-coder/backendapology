@@ -1,32 +1,29 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
-import smtplib, ssl, os
+import smtplib, ssl
 
 app = Flask(__name__)
+CORS(app)  # <-- Allow cross-origin requests
 
-EMAIL_USER = os.environ.get("EMAIL_USER")
-EMAIL_PASS = os.environ.get("EMAIL_PASS")
+EMAIL_USER = "toqitamimprotik@gmail.com"
+EMAIL_PASS = "vjakoxonkqweqqqt"
 
 @app.route("/send-email", methods=["POST"])
 def send_email():
     try:
-        data = request.get_json()
-        receiver = data["to"]
-        subject = data["subject"]
-        message = data["message"]
+        data = request.json
+        name = data.get("name")
+        email = data.get("email")
+        message = data.get("message")
 
-        email_text = f"Subject: {subject}\n\n{message}"
+        subject = f"New message from {name}"
+        body = f"From: {email}\n\n{message}"
 
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             server.login(EMAIL_USER, EMAIL_PASS)
-            server.sendmail(EMAIL_USER, receiver, email_text)
+            server.sendmail(EMAIL_USER, EMAIL_USER, f"Subject: {subject}\n\n{body}")
 
-        return jsonify({"success": True, "msg": "Email sent"})
+        return jsonify({"status": "success"}), 200
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+        return jsonify({"status": "error", "message": str(e)}), 500
