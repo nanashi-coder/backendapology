@@ -7,8 +7,8 @@ from email.mime.multipart import MIMEMultipart
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # allow all
 
-EMAIL_USER = os.environ.get("EMAIL_USER", "toqitamimprotik@gmail.com")
-EMAIL_PASS = os.environ.get("EMAIL_PASS", "vjakoxonkqweqqqt")
+EMAIL_USER = os.environ.get("EMAIL_USER")
+EMAIL_PASS = os.environ.get("EMAIL_PASS")
 
 @app.route("/send-email", methods=["POST"])
 def send_email():
